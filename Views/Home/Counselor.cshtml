@@ -1,0 +1,70 @@
+﻿@model List<PurdueUniversity.Models.Appointment>
+
+@{ 
+    ViewBag.Title = "counselor";
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Content/cssjqryui")
+
+    <script type="text/javascript">
+        function edit(i) {
+
+                $('.EditDiv_'+i).hide()
+                $('.UpdateCancelDiv_'+i).show()
+                $('#accept_'+i).attr('disabled', false)
+
+        }
+    </script>
+}
+
+<table>
+    <tr>
+        <th></th>
+        <th>StudentId</th>
+        <th>Student</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Accept</th>
+    </tr>
+
+    @{
+        int i = 0;
+        foreach (PurdueUniversity.Models.Appointment apt in Model)
+        {
+            i++;
+            <tr>
+                <td class="EditDiv_@i">
+                    <input id="Edit" type="button" value="Edit" onclick="edit(@i)"/>
+                </td>
+                <td class="UpdateCancelDiv_@i" style="display:none">
+                    @Html.ActionLink("Update", "Update", "Home", new { appointmentId = @apt.AppointmentID}, null)
+                    @Html.ActionLink("Cancel", "Counselor")
+                </td>
+                <td>
+                    @apt.StudentID.ToString()
+                </td>
+                <td>
+                    @apt.Student.FirstName
+                </td>
+                <td>
+                    @apt.Date.ToShortDateString()
+                </td>
+                <td>
+                    @apt.Time
+                </td>
+                <td>
+                  <input id="accept_@i" name="checkbox" type="checkbox" checked=@apt.Alloted disabled />
+                         
+                </td>
+            </tr>
+        }
+    }
+
+
+
+</table>

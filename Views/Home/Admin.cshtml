@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Admin";
+}
+
+<h2>Admin</h2>
+
+@using (Html.BeginForm("Admin"))
+{
+    @Html.ActionLink("Back","Admin")
+    <input type="text" id="tbAuto" name="tbAuto" class="tb" autocomplete="on" placeholder="Search by Name" style="float:right"/>
+    <input type="submit" value="search" style="float:right"/>
+}
+
+    
+
+<table>
+        <tr>
+            <th>StudentId</th>
+            <th>Student</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Accept</th>
+        </tr>
+
+    @foreach (PurdueUniversity.Models.Appointment ap in Model)
+    {
+        <tr>
+            <td>@ap.StudentID</td>
+            <td>@ap.Student.FirstName</td>
+            <td>@ap.Date.ToShortDateString()</td>
+            <td>@ap.Time</td>
+            <td>@ap.Alloted</td>
+        </tr>
+        }
+</table>
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(function(){
+            $(".tb").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("AutoCompleteSuggestions", "Home")',
+                        data: "{ 'searchString': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataFilter: function(data) { return data;},
+                        success: function(data) {
+                            response(data);
+                        },
+                    });
+                },
+                minLength: 1,
+            });
+        });
+
+    </script>
+}

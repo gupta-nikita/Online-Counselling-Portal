@@ -1,0 +1,31 @@
+﻿@model Nullable<DateTime>
+
+@{
+    DateTime dt = DateTime.Now;
+    if (Model != null)
+    {
+        dt = (System.DateTime)Model;
+    }
+    @Html.TextBoxFor(model => Model, "{0:dd-MM-yyyy}", new { @class = "datefield", type = "date" })
+}
+
+@section Scripts {
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/Content/cssjqryui")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "dd/MM/yyyy",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+        });
+
+    </script>
+
+}
